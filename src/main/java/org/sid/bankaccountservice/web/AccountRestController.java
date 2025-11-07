@@ -5,9 +5,11 @@ import org.sid.bankaccountservice.repositories.BankAccountRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+@RequestMapping("/api")
 @RestController
 
 public class AccountRestController {
@@ -28,6 +30,7 @@ public class AccountRestController {
     @PostMapping("/bankAccounts")
     public BankAccount save(@RequestBody BankAccount bankAccount) {
         if(bankAccount.getId()==null)bankAccount.setId(UUID.randomUUID().toString());
+        if(bankAccount.getCreatedAt()==null)bankAccount.setCreatedAt(LocalDateTime.now());
         return bankAccountRepository.save(bankAccount);
     }
     @PutMapping("/bankAccount/{id}")
@@ -40,5 +43,11 @@ public class AccountRestController {
         if(bankAccount.getCurrency()!=null ) account.setCurrency(bankAccount.getCurrency());
         if(bankAccount.getCreatedAt()!=null ) account.setCreatedAt(bankAccount.getCreatedAt());
         return bankAccountRepository.save(account);
+    }
+
+    @DeleteMapping("/bankAccount/{id}")
+    public void delete(@PathVariable String id) {
+        bankAccountRepository.deleteById(id);
+
     }
 }

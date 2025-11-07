@@ -1,4 +1,5 @@
 package org.sid.bankaccountservice;
+import org.hibernate.annotations.CreationTimestamp;
 
 import org.sid.bankaccountservice.entities.BankAccount;
 import org.sid.bankaccountservice.enums.AccountType;
@@ -8,6 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -26,7 +28,7 @@ public class BankAccountServiceApplication {
                         .id(UUID.randomUUID().toString())
                         .type(Math.random()>0.5? AccountType.Current_Account:AccountType.Saving_Account)
                         .balance(Math.random()*9000)
-                        .createdAt(new Date())
+                        .createdAt(LocalDateTime.now())
                         .currency("MAD")
                         .build();
                 bankAccountRepository.save(bankAccount);
